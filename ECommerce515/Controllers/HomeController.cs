@@ -18,7 +18,7 @@ public class HomeController : Controller
     
     public IActionResult Index()
     {
-        var result = _context.Products.Include(e => e.Category);
+        var result = _context.Products.Include(e => e.Category).Include(e => e.Brand);
 
         // Filter
         // Join
