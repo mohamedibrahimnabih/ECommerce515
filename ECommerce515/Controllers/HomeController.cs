@@ -18,14 +18,40 @@ public class HomeController : Controller
     
     public IActionResult Index()
     {
-        var result = _context.Products.Include(e => e.Category).Include(e => e.Brand);
+        var products = _context.Products.Include(e => e.Category);
 
         // Filter
         // Join
         // Pagination
         // Others..
 
-        return View(result.ToList());
+        return View(products.ToList());
+    }
+
+    public IActionResult Details([FromRoute] int id)
+    {
+        var product = _context.Products.Include(e => e.Category).Include(e => e.Brand).FirstOrDefault(e => e.ProductId == id);
+
+        if(product is not null)
+        {
+            var relatedProducts = _context.Products.Where(e => e.CategoryId == product.CategoryId && e.ProductId != product.ProductId).Skip(0).Take(4);
+
+            var topProduct = _context.Products.Where(e => e.ProductId != product.ProductId).OrderByDescending(e => e.Traffic).Skip(0).Take(4);
+
+            var ProductWithRelated = new ProductWithRelatedVM()
+            {
+                Product = product,
+                RelatedProducts = relatedProducts.ToList(),
+                TopProduct = topProduct.ToList()
+            };
+
+            product.Traffic++;
+            _context.SaveChanges();
+
+            return View(ProductWithRelated);
+        }
+
+        return NotFound();
     }
 
     public IActionResult Privacy()
@@ -33,7 +59,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public ViewResult Welcome()
+    public IActionResult Welcome()
     {
         int age = 21;
         string name = "Mohamed";
