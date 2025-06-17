@@ -37,7 +37,7 @@
                         <!-- Category -->
                         <div class="col-md-2">
                             <select name="CategoryId" class="form-control">
-                                <option>--Select Category--</option>
+                                <option value="0">--Select Category--</option>
                                 @if (ViewData["Categories"] is List<Category> categories)
                                 {
                                     @foreach (var item in categories)
@@ -137,15 +137,40 @@
                         <ul class="pagination">
                             @if (ViewBag.CurrentPage > 1)
                             {
-                                <li class="page-item"><a class="page-link" href="/Home/Index?page=@(ViewBag.CurrentPage-1)">Previous</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new {
+                                ProductName = ViewBag.ProductName,
+                                MinPrice = ViewBag.MinPrice,
+                                MaxPeice = ViewBag.MaxPrice,
+                                CategoryId = ViewBag.CategoryId,
+                                IsHot = ViewBag.IsHot,
+                                page = ViewBag.CurrentPage-1
+                                })">Previous</a>
+                                </li>
                             }
                             @for (var i = 1; i <= ViewBag.TotalNumberOfPage; i++)
                             {
-                                <li class="page-item"><a class="page-link" href="/Home/Index?page=@i">@i</a></li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action("Index", new {
+                                ProductName = ViewBag.ProductName,
+                                MinPrice = ViewBag.MinPrice,
+                                MaxPeice = ViewBag.MaxPrice,
+                                CategoryId = ViewBag.CategoryId,
+                                IsHot = ViewBag.IsHot,
+                                page = i
+                                })">@i</a></li>
                             }
                             @if (ViewBag.CurrentPage != ViewBag.TotalNumberOfPage)
                             {
-                                <li class="page-item"><a class="page-link" href="/Home/Index?page=@(ViewBag.CurrentPage+1)">Next</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new {
+                                ProductName = ViewBag.ProductName,
+                                MinPrice = ViewBag.MinPrice,
+                                MaxPeice = ViewBag.MaxPrice,
+                                CategoryId = ViewBag.CategoryId,
+                                IsHot = ViewBag.IsHot,
+                                page = ViewBag.CurrentPage+1
+                                })">Next</a>
+                                </li>
                             }
                         </ul>
                     </nav>
