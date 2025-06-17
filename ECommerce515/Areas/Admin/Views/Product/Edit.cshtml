@@ -1,0 +1,94 @@
+﻿@model CategoryWithBrandVM
+
+<div class="container">
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-12">
+            <h2 class="display-6">Edit Product</h2>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col-12">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="Name" value="@Model.Product!.Name">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a description here" id="description" style="height: 100px" name="Desciption">@Model.Product!.Description</textarea>
+                        <label for="description">You Desciption Here...</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="MainImg" class="form-label">MainImg</label>
+                    <input type="text" class="form-control" id="MainImg" name="MainImg" value="@Model.Product!.MainImg">
+                </div>
+                <div class="mb-3">
+                    <label for="Price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="Price" name="Price" value="@Model.Product!.Price">
+                </div>
+                <div class="mb-3">
+                    <label for="Quantity" class="form-label">Quantity</label>
+                    <input type="number" class="form-control" id="Quantity" name="Quantity" value="@Model.Product!.Quantity">
+                </div>
+                <div class="mb-3">
+                    <label for="Discount" class="form-label">Discount</label>
+                    <input type="number" class="form-control" id="Discount" name="Discount" value="@Model.Product!.Discount">
+                </div>
+                <div class="mb-3">
+                    <label for="CategoryId" class="form-label">CategoryId</label>
+                    @* <input type="number" class="form-control" id="CategoryId" name="CategoryId" value="@Model.Product!.CategoryId"> *@
+                    <select name="CategoryId" class="form-select">
+                        @foreach (var item in Model.Categories)
+                        {
+                            @if(item.Id == Model.Product.CategoryId)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="BrandId" class="form-label">BrandId</label>
+                    @* <input type="number" class="form-control" id="BrandId" name="BrandId" value="@Model.Product!.BrandId"> *@
+                    <select name="BrandId" class="form-select">
+                        @foreach (var item in Model.Brands)
+                        {
+                            @if (item.Id == Model.Product.BrandId)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="Status" class="form-select">
+
+                        @if (Model.Product!.Status)
+                        {
+                            <option value="true" selected>True</option>
+                            <option value="false">False</option>
+                        }
+                        else
+                        {
+                            <option value="true">True</option>
+                            <option value="false" selected>False</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Product>
+
+<div class="container">
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-6">
+            <h2 class="display-6">All Products</h2>
+        </div>
+        <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
+            <a href="/Admin/Product/Create" class="btn btn-success">Create</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Brand Name</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.ProductId</th>
+                            <td>@item.Name</td>
+                            <td>@item.Price.ToString("c")</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Category.Name</td>
+                            <td>@item.Brand.Name</td>
+                            @if(item.Status)
+                            {
+                                <td><span class="badge text-bg-primary">@item.Status</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge text-bg-danger">@item.Status</span></td>
+                            }
+                            <td>
+                                <a href="/Admin/Product/Details/@item.ProductId" type="button" class="btn btn-info">Details</a>
+                                <a href="/Admin/Product/Edit?productId=@item.ProductId" type="button" class="btn btn-warning">Edit</a>
+                                <a href="/Admin/Product/Delete/@item.ProductId"
+                                   class="btn btn-danger btn-delete"
+                                   data-id="@item.ProductId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const deleteUrl = this.getAttribute('href');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = deleteUrl;
+                    }
+                });
+            });
+        });
+    });
+</script>
+
