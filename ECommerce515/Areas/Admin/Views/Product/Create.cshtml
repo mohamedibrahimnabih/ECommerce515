@@ -12,14 +12,16 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="Name">
+                    <input type="text" class="form-control" id="name" name="Product.Name" value="@Model.Product!.Name">
+                    <span class="text-danger" asp-validation-for="Product.Name"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a description here" id="description" style="height: 100px" name="Description"></textarea>
+                        <textarea class="form-control" placeholder="Leave a description here" id="description" style="height: 100px" name="Product.Description">@Model.Product!.Description</textarea>
                         <label for="description">You Desciption Here...</label>
                     </div>
+                    <span class="text-danger" asp-validation-for="Product.Description"></span>
                 </div>
                 <div class="mb-3">
                     <label for="mainImg" class="form-label">MainImg</label>
@@ -29,42 +31,71 @@
                 </div>
                 <div class="mb-3">
                     <label for="Price" class="form-label">Price</label>
-                    <input type="number" class="form-control" id="Price" name="Price">
+                    <input type="number" class="form-control" id="Price" name="Product.Price" value="@Model.Product!.Price">
+                    <span class="text-danger" asp-validation-for="Product.Price"></span>
                 </div>
                 <div class="mb-3">
                     <label for="Quantity" class="form-label">Quantity</label>
-                    <input type="number" class="form-control" id="Quantity" name="Quantity">
+                    <input type="number" class="form-control" id="Quantity" name="Product.Quantity" value="@Model.Product!.Quantity">
+                    <span class="text-danger" asp-validation-for="Product.Quantity"></span>
                 </div>
                 <div class="mb-3">
                     <label for="Discount" class="form-label">Discount</label>
-                    <input type="number" class="form-control" id="Discount" name="Discount">
+                    <input type="number" class="form-control" id="Discount" name="Product.Discount" value="@Model.Product!.Discount">
+                    <span class="text-danger" asp-validation-for="Product.Discount"></span>
                 </div>
                 <div class="mb-3">
                     <label for="CategoryId" class="form-label">CategoryId</label>
-                    @* <input type="number" class="form-control" id="CategoryId" name="CategoryId"> *@
-                    <select name="CategoryId" class="form-select">
-                        @foreach(var item in Model.Categories)
+                    @* <input type="number" class="form-control" id="CategoryId" name="Product.CategoryId" value="@Model.Product!.CategoryId"> *@
+                    <select name="Product.CategoryId" class="form-select">
+                        @foreach (var item in Model.Categories)
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            @if (item.Id == Model.Product.CategoryId)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
                         }
                     </select>
+                    <span class="text-danger" asp-validation-for="Product.CategoryId"></span>
                 </div>
                 <div class="mb-3">
                     <label for="BrandId" class="form-label">BrandId</label>
-                    @* <input type="number" class="form-control" id="BrandId" name="BrandId"> *@
-                    <select name="BrandId" class="form-select">
+                    @* <input type="number" class="form-control" id="BrandId" name="Product.BrandId" value="@Model.Product!.BrandId"> *@
+                    <select name="Product.BrandId" class="form-select">
                         @foreach (var item in Model.Brands)
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            @if (item.Id == Model.Product.BrandId)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
                         }
                     </select>
+                    <span class="text-danger" asp-validation-for="Product.BrandId"></span>
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
-                    <select name="Status" class="form-select">
-                        <option value="true">True</option>
-                        <option value="false">False</option>
+                    <select name="Product.Status" class="form-select">
+
+                        @if (Model.Product!.Status)
+                        {
+                            <option value="true" selected>True</option>
+                            <option value="false">False</option>
+                        }
+                        else
+                        {
+                            <option value="true">True</option>
+                            <option value="false" selected>False</option>
+                        }
                     </select>
+                    <span class="text-danger" asp-validation-for="Product.Status"></span>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

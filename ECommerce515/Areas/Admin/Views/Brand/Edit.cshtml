@@ -10,9 +10,11 @@
     <div class="row my-3">
         <div class="col-12">
             <form method="post">
+                @* <div asp-validation-summary="All" class="text-danger"></div> *@
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" name="Name" value="@Model.Name">
+                    <span class="text-danger" asp-validation-for="Name"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
@@ -20,11 +22,11 @@
                         <textarea class="form-control" placeholder="Leave a description here" id="description" style="height: 100px" name="Description">@Model.Description</textarea>
                         <label for="description">You Desciption Here...</label>
                     </div>
+                    <span class="text-danger" asp-validation-for="Description"></span>
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
                     <select name="Status" class="form-select">
-
                         @if (Model.Status)
                         {
                             <option value="true" selected>True</option>
@@ -36,6 +38,7 @@
                             <option value="false" selected>False</option>
                         }
                     </select>
+                    <span class="text-danger" asp-validation-for="Status"></span>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

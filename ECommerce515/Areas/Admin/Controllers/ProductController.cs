@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ECommerce515.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -26,7 +27,8 @@ namespace ECommerce515.Areas.Admin.Controllers
             CategoryWithBrandVM categoryWithBrandVM = new()
             {
                 Categories = categories.ToList(),
-                Brands = brands.ToList()
+                Brands = brands.ToList(),
+                Product = new()
             };
 
             return View(categoryWithBrandVM);
@@ -35,6 +37,21 @@ namespace ECommerce515.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Product product, IFormFile mainImg)
         {
+            if (!ModelState.IsValid)
+            {
+                var categories = _context.Categories;
+                var brands = _context.Brands;
+
+                CategoryWithBrandVM categoryWithBrandVM = new()
+                {
+                    Categories = categories.ToList(),
+                    Brands = brands.ToList(),
+                    Product = new()
+                };
+
+                return View(categoryWithBrandVM);
+            }
+
             if (mainImg is not null && mainImg.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(mainImg.FileName);
@@ -64,7 +81,7 @@ namespace ECommerce515.Areas.Admin.Controllers
         {
             var product = _context.Products.Find(productId);
 
-            if(product is not null)
+            if (product is not null)
             {
                 var categories = _context.Categories;
                 var brands = _context.Brands;
@@ -89,6 +106,22 @@ namespace ECommerce515.Areas.Admin.Controllers
 
             if (productInDB is not null)
             {
+                if (!ModelState.IsValid)
+                {
+                    var categories = _context.Categories;
+                    var brands = _context.Brands;
+                    product.MainImg = productInDB.MainImg;
+
+                    CategoryWithBrandVM categoryWithBrandVM = new()
+                    {
+                        Categories = categories.ToList(),
+                        Brands = brands.ToList(),
+                        Product = product
+                    };
+
+                    return View(categoryWithBrandVM);
+                }
+
                 if (mainImg is not null && mainImg.Length > 0)
                 {
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(mainImg.FileName);

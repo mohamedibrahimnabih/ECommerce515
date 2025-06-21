@@ -1,4 +1,6 @@
-﻿<div class="container">
+﻿@model Brand
+
+<div class="container">
     <div class="row mb-3 align-items-center my-3">
         <div class="col-md-12">
             <h2 class="display-6">Create New Brand</h2>
@@ -8,23 +10,35 @@
     <div class="row my-3">
         <div class="col-12">
             <form method="post">
+                @* <div asp-validation-summary="All" class="text-danger"></div> *@
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="Name">
+                    <input type="text" class="form-control" id="name" name="Name" value="@Model.Name">
+                    <span class="text-danger" asp-validation-for="Name"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a description here" id="description" style="height: 100px" name="Description"></textarea>
+                        <textarea class="form-control" placeholder="Leave a description here" id="description" style="height: 100px" name="Description">@Model.Description</textarea>
                         <label for="description">You Desciption Here...</label>
                     </div>
+                    <span class="text-danger" asp-validation-for="Description"></span>
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
                     <select name="Status" class="form-select">
-                        <option value="true">True</option>
-                        <option value="false">False</option>
+                        @if (Model.Status)
+                        {
+                            <option value="true" selected>True</option>
+                            <option value="false">False</option>
+                        }
+                        else
+                        {
+                            <option value="true">True</option>
+                            <option value="false" selected>False</option>
+                        }
                     </select>
+                    <span class="text-danger" asp-validation-for="Status"></span>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
