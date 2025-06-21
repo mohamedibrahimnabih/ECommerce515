@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ECommerce515.Areas.Admin.Controllers
 {
@@ -130,6 +131,13 @@ namespace ECommerce515.Areas.Admin.Controllers
 
             if (product is not null)
             {
+                // Delete old img from wwwroot
+                var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", product.MainImg);
+                if (System.IO.File.Exists(oldFilePath))
+                {
+                    System.IO.File.Delete(oldFilePath);
+                }
+
                 _context.Remove(product);
                 _context.SaveChanges();
 

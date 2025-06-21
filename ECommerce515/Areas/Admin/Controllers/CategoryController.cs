@@ -17,12 +17,17 @@ namespace ECommerce515.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new Category());
         }
 
         [HttpPost]
         public IActionResult Create(Category category)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(category);
+            }
+
             _context.Add(category);
             _context.SaveChanges();
 
@@ -45,6 +50,11 @@ namespace ECommerce515.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(Category category)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(category);
+            }
+
             _context.Update(category);
             _context.SaveChanges();
 
