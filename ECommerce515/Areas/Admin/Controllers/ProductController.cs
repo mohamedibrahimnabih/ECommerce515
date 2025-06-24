@@ -1,6 +1,7 @@
 ﻿using ECommerce515.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -26,8 +27,16 @@ namespace ECommerce515.Areas.Admin.Controllers
 
             CategoryWithBrandVM categoryWithBrandVM = new()
             {
-                Categories = categories.ToList(),
-                Brands = brands.ToList(),
+                Categories = categories.Select(e=> new SelectListItem()
+                {
+                    Text = e.Name,
+                    Value = e.Id.ToString()
+                }).ToList(),
+                Brands = brands.Select(e => new SelectListItem()
+                {
+                    Text = e.Name,
+                    Value = e.Id.ToString()
+                }).ToList(),
                 Product = new()
             };
 
@@ -44,8 +53,16 @@ namespace ECommerce515.Areas.Admin.Controllers
 
                 CategoryWithBrandVM categoryWithBrandVM = new()
                 {
-                    Categories = categories.ToList(),
-                    Brands = brands.ToList(),
+                    Categories = categories.Select(e => new SelectListItem()
+                    {
+                        Text = e.Name,
+                        Value = e.Id.ToString()
+                    }).ToList(),
+                    Brands = brands.Select(e => new SelectListItem()
+                    {
+                        Text = e.Name,
+                        Value = e.Id.ToString()
+                    }).ToList(),
                     Product = new()
                 };
 
@@ -88,8 +105,16 @@ namespace ECommerce515.Areas.Admin.Controllers
 
                 CategoryWithBrandVM categoryWithBrandVM = new()
                 {
-                    Categories = categories.ToList(),
-                    Brands = brands.ToList(),
+                    Categories = categories.Select(e => new SelectListItem()
+                    {
+                        Text = e.Name,
+                        Value = e.Id.ToString()
+                    }).ToList(),
+                    Brands = brands.Select(e => new SelectListItem()
+                    {
+                        Text = e.Name,
+                        Value = e.Id.ToString()
+                    }).ToList(),
                     Product = product
                 };
 
@@ -114,8 +139,16 @@ namespace ECommerce515.Areas.Admin.Controllers
 
                     CategoryWithBrandVM categoryWithBrandVM = new()
                     {
-                        Categories = categories.ToList(),
-                        Brands = brands.ToList(),
+                        Categories = categories.Select(e => new SelectListItem()
+                        {
+                            Text = e.Name,
+                            Value = e.Id.ToString()
+                        }).ToList(),
+                        Brands = brands.Select(e => new SelectListItem()
+                        {
+                            Text = e.Name,
+                            Value = e.Id.ToString()
+                        }).ToList(),
                         Product = product
                     };
 

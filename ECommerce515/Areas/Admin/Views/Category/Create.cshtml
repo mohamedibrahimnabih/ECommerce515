@@ -13,13 +13,13 @@
                 @* <div asp-validation-summary="All" class="text-danger"></div> *@
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="Name" value="@Model.Name">
+                    <input class="form-control" asp-for="Name">
                     <span class="text-danger" asp-validation-for="Name"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a description here" id="description" style="height: 100px" name="Description">@Model.Description</textarea>
+                        <textarea class="form-control" placeholder="Leave a description here" style="height: 100px" asp-for="Description"></textarea>
                         <label for="description">You Desciption Here...</label>
                     </div>
                     <span class="text-danger" asp-validation-for="Description"></span>

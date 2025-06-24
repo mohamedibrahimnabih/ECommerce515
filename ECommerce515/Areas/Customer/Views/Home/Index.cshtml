@@ -123,7 +123,7 @@
                                 </div>
                                 <!-- Product actions-->
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Customer/Home/Details/@item.ProductId">Show Details</a></div>
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-action="Details" asp-route-id="@item.ProductId">Show Details</a></div>
                                 </div>
                             </div>
                         </div>
@@ -138,13 +138,7 @@
                             @if (ViewBag.CurrentPage > 1)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("Index", new {
-                                ProductName = ViewBag.ProductName,
-                                MinPrice = ViewBag.MinPrice,
-                                MaxPeice = ViewBag.MaxPrice,
-                                CategoryId = ViewBag.CategoryId,
-                                IsHot = ViewBag.IsHot,
-                                page = ViewBag.CurrentPage-1
+                                    <a class="page-link" asp-action="Index" asp-route-ProductName="@ViewBag.ProductName" asp-route-MinPrice="@ViewBag.MinPrice" asp-route-MaxPrice="@ViewBag.MaxPrice" asp-route-CategoryId="@ViewBag.CategoryId" asp-route-IsHot="@ViewBag.IsHot" asp-route-page="@(ViewBag.CurrentPage-1)"
                                 })">Previous</a>
                                 </li>
                             }
@@ -162,14 +156,8 @@
                             @if (ViewBag.CurrentPage != ViewBag.TotalNumberOfPage)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("Index", new {
-                                ProductName = ViewBag.ProductName,
-                                MinPrice = ViewBag.MinPrice,
-                                MaxPeice = ViewBag.MaxPrice,
-                                CategoryId = ViewBag.CategoryId,
-                                IsHot = ViewBag.IsHot,
-                                page = ViewBag.CurrentPage+1
-                                })">Next</a>
+                                    <a class="page-link" asp-action="Index" asp-route-ProductName="@ViewBag.ProductName" asp-route-MinPrice="@ViewBag.MinPrice" asp-route-MaxPrice="@ViewBag.MaxPrice" asp-route-CategoryId="@ViewBag.CategoryId" asp-route-IsHot="@ViewBag.IsHot" asp-route-page="@(ViewBag.CurrentPage+1)"
+                                       })">Next</a>
                                 </li>
                             }
                         </ul>

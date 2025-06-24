@@ -1,9 +1,11 @@
-﻿namespace ECommerce515.ViewModels
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace ECommerce515.ViewModels
 {
     public class CategoryWithBrandVM
     {
-        public List<Category> Categories { get; set; } = null!;
-        public List<Brand> Brands { get; set; } = null!;
+        public List<SelectListItem> Categories { get; set; } = null!;
+        public List<SelectListItem> Brands { get; set; } = null!;
         public Product? Product { get; set; }
     }
 }
