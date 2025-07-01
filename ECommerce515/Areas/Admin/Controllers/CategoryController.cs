@@ -1,17 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerce515.Repositories.IRepositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ECommerce515.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class CategoryController : Controller
     {
-        private ApplicationDbContext _context = new();
+        //private ApplicationDbContext _context = new();
+        //private IRepository<Category> _categoryRepository = new Repository<Category>();
+        private ICategoryRepository _categoryRepository;// = new CategoryRepository();
 
-        public IActionResult Index()
+        public CategoryController(ICategoryRepository categoryRepository)
         {
-            var categories = _context.Categories;
+            _categoryRepository = categoryRepository;
+        }
 
-            return View(categories.ToList());
+        public async Task<IActionResult> Index(ICategoryRepository categoryRepository)
+        {
+            var categories = await _categoryRepository.GetAsync();
+
+            return View(categories);
         }
 
         [HttpGet]
@@ -21,23 +31,31 @@ namespace ECommerce515.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public async Task<IActionResult> Create(Category category)
         {
             if(!ModelState.IsValid)
             {
                 return View(category);
             }
 
-            _context.Add(category);
-            _context.SaveChanges();
+            await _categoryRepository.CreateAsync(category);
+
+            //CookieOptions cookie = new()
+            //{
+
+            //};
+            //Response.Cookies.Append("success-notification", "Add Category Successfully", cookie);
+            TempData["success-notification"] = "Add Category Successfully";
+
+            await _categoryRepository.CommitAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public IActionResult Edit([FromRoute] int id)
+        public async Task<IActionResult> Edit([FromRoute] int id)
         {
-            var category = _context.Categories.Find(id);
+            var category = await _categoryRepository.GetOneAsync(e=>e.Id == id);
 
             if(category is not null)
             {
@@ -48,27 +66,29 @@ namespace ECommerce515.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Category category)
+        public async Task<IActionResult> Edit(Category category)
         {
             if(!ModelState.IsValid)
             {
                 return View(category);
             }
 
-            _context.Update(category);
-            _context.SaveChanges();
+            _categoryRepository.Edit(category);
+            TempData["success-notification"] = "Update Category Successfully";
+            await _categoryRepository.CommitAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var category = _context.Categories.Find(id);
+            var category = await _categoryRepository.GetOneAsync(e => e.Id == id);
 
             if (category is not null)
             {
-                _context.Remove(category);
-                _context.SaveChanges();
+                _categoryRepository.Delete(category);
+                TempData["success-notification"] = "Delete Category Successfully";
+                await _categoryRepository.CommitAsync();
 
                 return RedirectToAction(nameof(Index));
             }
