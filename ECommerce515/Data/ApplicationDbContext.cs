@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using ECommerce515.ViewModels;
 
 namespace ECommerce515.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -25,5 +27,7 @@ namespace ECommerce515.Data
 
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ECommerce515;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;");
         }
+        public DbSet<ECommerce515.ViewModels.RegisterVM> RegisterVM { get; set; } = default!;
+        public DbSet<ECommerce515.ViewModels.LoginVM> LoginVM { get; set; } = default!;
     }
 }

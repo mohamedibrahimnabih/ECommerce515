@@ -1,4 +1,7 @@
 using ECommerce515.Repositories.IRepositories;
+using ECommerce515.Utility;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce515
@@ -15,6 +18,19 @@ namespace ECommerce515
             builder.Services.AddDbContext<ApplicationDbContext>(
                 option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                 );
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+                options =>
+                {
+                    options.Password.RequireNonAlphanumeric = false;
+                    //options.SignIn.RequireConfirmedEmail = true;
+                    options.SignIn.RequireConfirmedEmail = true;
+                }
+                )
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();
