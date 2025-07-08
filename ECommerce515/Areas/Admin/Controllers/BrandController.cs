@@ -1,10 +1,14 @@
 ﻿using ECommerce515.Models;
+using ECommerce515.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace ECommerce515.Areas.Admin.Controllers
 {
     [Area("Admin")]
+
+    [Authorize(Roles = $"{SD.SuperAdmin},{SD.Admin}")]
     public class BrandController : Controller
     {
         private readonly IBrandRepository _brandRepository;

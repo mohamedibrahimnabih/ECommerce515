@@ -1,10 +1,11 @@
-﻿@model IEnumerable<Category>
+﻿@using ECommerce515.Utility
+@model IEnumerable<Category>
 
 @* <h1>@Context.Request.Cookies["notification"]</h1> *@
 @* <h1>@TempData["notification"]</h1> *@
 
 @section Scripts {
-    <partial name="_NotificationPartial.cshtml">
+<partial name="_NotificationPartial.cshtml">
 }
 
 <div class="container">
@@ -12,9 +13,12 @@
         <div class="col-md-6">
             <h2 class="display-6">All Categories</h2>
         </div>
-        <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
-            <a href="/Admin/Category/Create" class="btn btn-success">Create</a>
-        </div>
+        @if(User.IsInRole(SD.SuperAdmin) || User.IsInRole(SD.Admin))
+        {
+            <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
+                <a href="/Admin/Category/Create" class="btn btn-success">Create</a>
+            </div>
+        }
     </div>
 
     <div class="row">
@@ -27,7 +31,10 @@
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
+                        @if (User.IsInRole(SD.SuperAdmin) || User.IsInRole(SD.Admin))
+                        { 
+                            <th scope="col">Actions</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -53,12 +60,15 @@
                             {
                                 <td><span class="badge text-bg-danger">@item.Status</span></td>
                             }
-                            <td>
-                                <a href="/Admin/Category/Edit/@item.Id" type="button" class="btn btn-warning">Edit</a>
-                                <a href="/Admin/Category/Delete/@item.Id"
-                                   class="btn btn-danger btn-delete"
-                                   data-id="@item.Id">Delete</a>
-                            </td>
+                            @if (User.IsInRole(SD.SuperAdmin) || User.IsInRole(SD.Admin))
+                            {
+                                    <td>
+                                        <a href="/Admin/Category/Edit/@item.Id" type="button" class="btn btn-warning">Edit</a>
+                                        <a href="/Admin/Category/Delete/@item.Id"
+                                           class="btn btn-danger btn-delete"
+                                           data-id="@item.Id">Delete</a>
+                                    </td>
+                            }
                         </tr>
                     }
                 </tbody>

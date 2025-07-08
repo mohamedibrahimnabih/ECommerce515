@@ -1,4 +1,6 @@
 ﻿using ECommerce515.Repositories.IRepositories;
+using ECommerce515.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -16,13 +18,16 @@ namespace ECommerce515.Areas.Admin.Controllers
         {
             _categoryRepository = categoryRepository;
         }
+        [Authorize(Roles = $"{SD.SuperAdmin},{SD.Admin},{SD.Company}")]
 
-        public async Task<IActionResult> Index(ICategoryRepository categoryRepository)
+        public async Task<IActionResult> Index()
         {
             var categories = await _categoryRepository.GetAsync();
 
             return View(categories);
         }
+
+        [Authorize(Roles = $"{SD.SuperAdmin},{SD.Admin}")]
 
         [HttpGet]
         public IActionResult Create()
@@ -30,6 +35,7 @@ namespace ECommerce515.Areas.Admin.Controllers
             return View(new Category());
         }
 
+        [Authorize(Roles = $"{SD.SuperAdmin},{SD.Admin}")]
         [HttpPost]
         public async Task<IActionResult> Create(Category category)
         {
@@ -53,6 +59,8 @@ namespace ECommerce515.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{SD.SuperAdmin},{SD.Admin}")]
+
         public async Task<IActionResult> Edit([FromRoute] int id)
         {
             var category = await _categoryRepository.GetOneAsync(e=>e.Id == id);
@@ -66,6 +74,8 @@ namespace ECommerce515.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SuperAdmin},{SD.Admin}")]
+
         public async Task<IActionResult> Edit(Category category)
         {
             if(!ModelState.IsValid)
@@ -79,6 +89,7 @@ namespace ECommerce515.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $"{SD.SuperAdmin},{SD.Admin}")]
 
         public async Task<IActionResult> Delete([FromRoute] int id)
         {

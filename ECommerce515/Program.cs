@@ -1,5 +1,6 @@
 using ECommerce515.Repositories.IRepositories;
 using ECommerce515.Utility;
+using ECommerce515.Utility.DBInitializer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -30,11 +31,20 @@ namespace ECommerce515
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            });
+
             builder.Services.AddTransient<IEmailSender, EmailSender>();
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IBrandRepository, BrandRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IUserOTPRepository, UserOTPRepository>();
+            builder.Services.AddScoped<IDBInitializer, DBInitializer>();
+
 
             var app = builder.Build();
 
@@ -47,6 +57,14 @@ namespace ECommerce515
             }
 
             app.UseHttpsRedirection();
+
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbInitializer = scope.ServiceProvider.GetRequiredService<IDBInitializer>();
+                dbInitializer.Initialize();
+            }
+
             app.UseRouting();
 
             app.UseAuthorization();
