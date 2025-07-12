@@ -15,6 +15,9 @@ namespace ECommerce515.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<UserOTP> UserOTPs { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
 
         // Legacy Code
@@ -28,6 +31,5 @@ namespace ECommerce515.Data
 
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ECommerce515;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;");
         }
-        public DbSet<ECommerce515.ViewModels.ChangePasswordVM> ChangePasswordVM { get; set; } = default!;
     }
 }

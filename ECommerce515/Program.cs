@@ -4,6 +4,7 @@ using ECommerce515.Utility.DBInitializer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace ECommerce515
 {
@@ -44,8 +45,11 @@ namespace ECommerce515
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IUserOTPRepository, UserOTPRepository>();
             builder.Services.AddScoped<IDBInitializer, DBInitializer>();
-
-
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
